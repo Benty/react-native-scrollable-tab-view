@@ -13,16 +13,15 @@ const {
   InteractionManager,
 } = ReactNative;
 
-const ViewPagerAndroid = require('react-native-pager-view');
 const TimerMixin = require('react-timer-mixin');
-const ViewPager = require('react-native-pager-view');
+import PagerView from 'react-native-pager-view'
 
 const SceneComponent = require('./SceneComponent');
 const DefaultTabBar = require('./DefaultTabBar');
 const ScrollableTabBar = require('./ScrollableTabBar');
 
-const AnimatedViewPagerAndroid = Platform.OS === 'android' ?
-  Animated.createAnimatedComponent(ViewPager) :
+const AnimatedPagerViewAndroid = Platform.OS === 'android' ?
+  Animated.createAnimatedComponent(PagerView) :
   undefined;
 
 const ScrollableTabView = createReactClass({
@@ -252,7 +251,7 @@ const ScrollableTabView = createReactClass({
       </Animated.ScrollView>;
     } else {
       const scenes = this._composeScenes();
-      return <AnimatedViewPagerAndroid
+      return <AnimatedPagerViewAndroid
         key={this._children().length}
         style={styles.scrollableContentAndroid}
         initialPage={this.props.initialPage}
@@ -275,7 +274,7 @@ const ScrollableTabView = createReactClass({
         {...this.props.contentProps}
       >
         {scenes}
-      </AnimatedViewPagerAndroid>;
+      </AnimatedPagerViewAndroid>;
     }
   },
 
@@ -342,7 +341,7 @@ const ScrollableTabView = createReactClass({
     if (!width || width <= 0 || Math.round(width) === Math.round(this.state.containerWidth)) {
       return;
     }
-    
+
     if (Platform.OS === 'ios') {
       const containerWidthAnimatedValue = new Animated.Value(width);
       // Need to call __makeNative manually to avoid a native animated bug. See
